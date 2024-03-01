@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
-import Initial from './pages/Initial';
-import Counter from './pages/Counter';
+import Login from './pages/Login/Login';
+// import SignUp from './pages/SignUp/SignUp';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={ <Initial /> } />
-      <Route path="/counter" element={ <Counter /> } />
+      <Route path="/" element={ <Login /> } />
+      {/* <Route path="/sign-up" element={ <SignUp /> } /> */}
     </Routes>
   );
 }
