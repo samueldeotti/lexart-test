@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import mockedData from '../../mocks/products.mock';
 import { GenericProductsType } from '../../types/ProductsType';
 
 export default function Home() {
   const [products, setProducts] = useState<GenericProductsType[]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getData = async () => {
@@ -22,6 +25,7 @@ export default function Home() {
       {products.map((product: GenericProductsType, index) => (
         /* AQUI COLOCAR O ID QUANDO FOR IMPLEMENTADO DO BANCO DE DADOS */
         <div key={ product.name + index }>
+          <button onClick={ () => navigate(`/edit-product/${index}`) }>LAPIS</button>
           <h2>{product.name}</h2>
           <p>{product.brand}</p>
           <p>{product.model}</p>

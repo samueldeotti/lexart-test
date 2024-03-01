@@ -26,10 +26,8 @@ export default function Header() {
             <li><Link to="/add-product">add</Link></li>
           </>
         ) : (<li><Link to="/products">Products</Link></li>)}
-
-        <li><Link to="/">edit</Link></li>
         {/* arrumar rota, COLOCAR FUNÇÃO ON CLICK AQUI */}
-        <li><Link to="/">Log Out</Link></li>
+        <li><Link to="/login">Log Out</Link></li>
       </ul>
     </nav>
   );

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GenericProductsType } from '../../types/ProductsType';
 
-export default function AddProcuct() {
+export default function EditProduct() {
   const inicialInfo: GenericProductsType = {
     name: '',
     brand: '',
@@ -13,9 +13,12 @@ export default function AddProcuct() {
         price: 0,
       },
     ],
-  };
+  }; // fazer um get info para o backend - passar o id do produto, vai estar na rota, o inicial info vai começar com os dados do produto
+
+  // ai quando eu clicar eu atualizar fazer um patch para o backend
 
   const [productInfo, setProductInfo] = useState<GenericProductsType>(inicialInfo);
+
   const navigate = useNavigate();
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +51,7 @@ export default function AddProcuct() {
   // adicionar função que manda para o backend e cria um novo produto
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    setProductInfo(inicialInfo);
   };
 
   const handleQuit = () => {
@@ -122,7 +126,7 @@ export default function AddProcuct() {
           </div>
         ))}
       </div>
-      <button type="submit">Adicionar</button>
+      <button type="submit">Editar</button>
       <button type="button" onClick={ handleQuit }>Cancelar</button>
 
     </form>
