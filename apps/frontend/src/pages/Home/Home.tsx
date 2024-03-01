@@ -1,7 +1,42 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
+import mockedData from '../../mocks/products.mock';
+import { GenericProductsType } from '../../types/ProductsType';
 
 export default function Home() {
+  const [products, setProducts] = useState<GenericProductsType[]>([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      // const response = await fetch('http://localhost:3333/products')
+      // const data = await response.json()
+      // return data
+      const response = mockedData as GenericProductsType[];
+      console.log(response);
+      setProducts(response);
+    };
+    getData();
+  }, []);
+
   return (
-    <div>Home</div>
-  )
+    <div>
+      {products.map((product: GenericProductsType, index) => (
+        /* AQUI COLOCAR O ID QUANDO FOR IMPLEMENTADO DO BANCO DE DADOS */
+        <div key={ product.name + index }>
+          <h2>{product.name}</h2>
+          <p>{product.brand}</p>
+          <p>{product.model}</p>
+          <div>
+            {product.data.map((item) => (
+              <div key={ item.color }>
+                <p>{item.price}</p>
+                <p>{item.color}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      ))}
+
+    </div>
+  );
 }
