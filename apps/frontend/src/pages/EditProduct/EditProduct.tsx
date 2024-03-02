@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GenericProductsType } from '../../types/ProductsType';
 
 export default function EditProduct() {
@@ -13,7 +13,11 @@ export default function EditProduct() {
         price: 0,
       },
     ],
-  }; // fazer um get info para o backend - passar o id do produto, vai estar na rota, o inicial info vai começar com os dados do produto
+  };
+
+  // const { id } = useParams();
+
+  // fazer um get info para o backend - passar o id do produto, vai estar na rota, o inicial info vai começar com os dados do produto
 
   // ai quando eu clicar eu atualizar fazer um patch para o backend
 

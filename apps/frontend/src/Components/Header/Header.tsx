@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
+import { SearchTypeProps } from '../../types/SearchTypeProps';
 
-export default function Header() {
-  const [search, setSearch] = useState('');
+export default function Header(props: SearchTypeProps) {
+  const { search, handleChange } = props;
 
   const location = useLocation();
 
@@ -20,7 +20,7 @@ export default function Header() {
                 name="search"
                 id="search"
                 value={ search }
-                onChange={ (e) => setSearch(e.target.value) }
+                onChange={ handleChange }
               />
             </label>
             <li><Link to="/add-product">add</Link></li>
