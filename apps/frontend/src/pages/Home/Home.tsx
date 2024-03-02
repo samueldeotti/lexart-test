@@ -14,7 +14,6 @@ export default function Home({ search }: { search: string }) {
       // const data = await response.json()
       // return data
       const response = mockedData as GenericProductsType[];
-      console.log(response);
       setProducts(response);
     };
     getData();

@@ -1,4 +1,4 @@
-import { GenericProductsType, ProductsType } from '../types/ProductsType';
+import { ProductsType } from '../types/ProductsType';
 
 const products = [{
   name: 'Xiaomi Redmi 9',
