@@ -1,15 +1,27 @@
-// import { Options } from "sequelize";
 import 'dotenv/config';
+import { Options } from 'sequelize';
 
-// const {
-//   POSTGRES_USER,
-//   POSTGRES_PASSWORD,
-//   POSTGRES_HOST,
-//   POSTGRES_DATABASE,
-// } = process.env;
+const {
+  BASE_USER,
+  BASE_PASSWORD,
+  BASE_DATABASE,
+  BASE_HOST,
+  POSTGRES_URL,
+} = process.env;
 
-const config = {
-  connectionString: process.env.POSTGRES_URL ,
+const config: Options = {
+  username: BASE_USER,
+  password: BASE_PASSWORD,
+  database: BASE_DATABASE,
+  host: BASE_HOST,
+  dialect: 'postgres',
+  port: 5432,
+  dialectOptions: {
+    ssl: {
+    require: true,
+    rejectUnauthorized: false,
+    }
+  }
 }
 
 export = config
