@@ -1,6 +1,6 @@
-"use strict";
-require("dotenv/config");
-const { BASE_USER, BASE_PASSWORD, BASE_DATABASE, BASE_HOST, POSTGRES_URL, } = process.env;
+require('dotenv/config');
+
+const { BASE_USER, BASE_PASSWORD, BASE_DATABASE, BASE_HOST, POSTGRES_URL } = process.env;
 const config = {
     username: BASE_USER,
     password: BASE_PASSWORD,
@@ -12,7 +12,7 @@ const config = {
         ssl: {
             require: true,
             rejectUnauthorized: false,
-        }
-    }
+        },
+    },
 };
 module.exports = config;
