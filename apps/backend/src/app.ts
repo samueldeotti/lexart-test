@@ -1,42 +1,17 @@
+import { Request, Response } from 'express';
 import express from 'express';
 import cors from 'cors';
-import router from './routes';
+import loginRouter from './routes/login.routes';
 
-import errorMiddleware from './middlewares/errorMiddleware';
+const app = express();
 
-class App {
-  public app: express.Express;
+app.use(express.json());
+app.use(cors());
 
-  constructor() {
-    this.app = express();
-    this.config();
+app.use('/login', loginRouter);
 
-    this.app.get('/', (req, res) => res.json({ ok: true }));
-    this.routes();
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello World!');
+});
 
-    this.app.use(errorMiddleware);
-  }
-
-  private routes(): void {
-    this.app.use(router);
-  }
-
-  private config():void {
-    const accessControl: express.RequestHandler = (_req, res, next) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT,PATCH');
-      res.header('Access-Control-Allow-Headers', '*');
-      next();
-    };
-
-    this.app.use(express.json());
-    this.app.use(accessControl);
-    this.app.use(cors())
-  }
-
-  public start(PORT: string | number): void {
-    this.app.listen(PORT, () => console.log(`Running on port ${PORT}`));
-  }
-}
-
-export { App };
+export default app;
