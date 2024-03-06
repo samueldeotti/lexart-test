@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import mockedData from '../../mocks/products.mock';
-import { GenericProductsType } from '../../types/ProductsType';
+import { ProductsType } from '../../types/ProductsType';
 
 export default function Home({ search }: { search: string }) {
-  const [products, setProducts] = useState<GenericProductsType[]>([]);
-
+  const [products, setProducts] = useState<ProductsType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const getData = async () => {
-      // const response = await fetch('http://localhost:3333/products')
-      // const data = await response.json()
-      // return data
-      const response = mockedData as GenericProductsType[];
-      setProducts(response);
+      const response = await fetch('http://localhost:5432/products');
+      const data = await response.json();
+      setProducts(data);
+      setIsLoading(false);
     };
     getData();
   }, []);
@@ -26,31 +24,31 @@ export default function Home({ search }: { search: string }) {
     setProducts(getNewData);
   };
 
-  console.log(products);
-
   return (
     <div>
-      {products.filter((product) => product.name.toLowerCase()
-        .includes(search.toLowerCase()))
-        .map((product: GenericProductsType, index) => (
-        /* AQUI COLOCAR O ID QUANDO FOR IMPLEMENTADO DO BANCO DE DADOS */
-          <div key={ product.name + index }>
-            <button onClick={ () => navigate(`/edit-product/${index}`) }>LAPIS</button>
-            <button onClick={ () => handleDelete(index) }>X</button>
-            <h2>{product.name}</h2>
-            <p>{product.brand}</p>
-            <p>{product.model}</p>
-            <div>
-              {product.data.map((item) => (
-                <div key={ item.color }>
-                  <p>{item.price}</p>
-                  <p>{item.color}</p>
+      {isLoading ? <p>Loading...</p>
+        : (
+          <>
+            {products.filter((product) => product.name.toLowerCase()
+              .includes(search.toLowerCase()))
+              .map((product: ProductsType) => (
+                <div key={ product.id }>
+                  <button
+                    onClick={ () => navigate(`/edit-product/${product.id}`) }
+                  >
+                    LAPIS
+                  </button>
+                  <button onClick={ () => handleDelete(product.id as number) }>X</button>
+                  <h2>{product.name}</h2>
+                  <p>{product.brand}</p>
+                  <p>{product.model}</p>
+                  <p>{product.price}</p>
+                  <p>{product.color}</p>
                 </div>
-              ))}
-            </div>
-          </div>
 
-        ))}
+              ))}
+          </>
+        )}
 
     </div>
   );

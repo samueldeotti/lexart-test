@@ -1,10 +1,10 @@
 import { User } from './UserType';
 
 export type UserParams = {
-  email: string;
+  username: string;
   password: string;
 };
 
 export interface ILoginModel {
-  findByEmail(email: string): Promise<User | null>;
+  findByUsername(username: string): Promise<User | null>;
 }

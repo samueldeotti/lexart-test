@@ -20,8 +20,10 @@ class UserController {
     }
     getUserInfo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { email, password } = req.body;
-            const { status, data } = yield this.userService.getUserInfo(email, password);
+            const { username, password } = req.body;
+            console.log('username', username);
+            console.log('password', password);
+            const { status, data } = yield this.userService.getUserInfo(username, password);
             return res.status((0, mapStatusHTTP_1.default)(status)).json(data);
         });
     }

@@ -42,18 +42,18 @@ class UserService {
     constructor(loginModel = new LoginModel_1.default()) {
         this.loginModel = loginModel;
     }
-    getUserInfo(email, password) {
+    getUserInfo(username, password) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.loginModel.findByEmail(email);
+            const user = yield this.loginModel.findByUsername(username);
             if (!user)
-                return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
+                return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
             const isPasswordValid = yield bcrypt.compare(password, user.password);
             if (!isPasswordValid) {
-                return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
+                return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
             }
             const token = jwt.sign({
-                id: user.id, email: user.email,
+                id: user.id, username: user.username,
             }, (_a = process.env.JWT_SECRET) !== null && _a !== void 0 ? _a : 'jwt_secret');
             return { status: 'SUCCESSFUL', data: { token } };
         });

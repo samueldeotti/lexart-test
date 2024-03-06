@@ -1,6 +1,6 @@
 /** @type {import('sequelize-cli').Migration} */
-export default {
-  up: async (queryInterface, Sequelize) => {
+module.exports = {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('products', {
       id: {
         type: Sequelize.DataTypes.INTEGER,
@@ -30,7 +30,7 @@ export default {
     });  
   },
 
-  down: async (queryInterface, _Sequelize) => {
+  async down(queryInterface, _Sequelize) {
     await queryInterface.dropTable('products');
   },
 };

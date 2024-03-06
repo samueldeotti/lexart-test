@@ -17,9 +17,9 @@ class UserModel {
     constructor() {
         this.model = LoginModel_1.default;
     }
-    findByEmail(email) {
+    findByUsername(username) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.model.findOne({ where: { email } });
+            const user = yield this.model.findOne({ where: { username } });
             if (!user)
                 return null;
             return user.dataValues;

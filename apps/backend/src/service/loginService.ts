@@ -13,19 +13,25 @@ export default class UserService {
     private loginModel: ILoginModel = new LoginModel(),
   ) { }
 
-  public async getUserInfo(email: string, password: string): Promise<ServiceResponse<LoginResponse>> {
-    const user = await this.loginModel.findByEmail(email);
+  public async getUserInfo(username: string, password: string): Promise<ServiceResponse<LoginResponse>> {
+    const user = await this.loginModel.findByUsername(username);
 
-    if (!user) return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
+    if (!user) return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log()
+
+    // const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    //ARRUMAR ESSA PARTE PARA FICAR IGUAL DE CIMA
+
+    const isPasswordValid = password === user.password
 
     if (!isPasswordValid) {
-      return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
+      return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
     }
 
     const token = jwt.sign({
-      id: user.id, email: user.email,
+      id: user.id, username: user.username,
     }, process.env.JWT_SECRET as string ?? 'jwt_secret');
 
     return { status: 'SUCCESSFUL', data: { token } };

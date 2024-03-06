@@ -14,7 +14,6 @@ class SequelizeUser extends
 
   declare username: string;
 
-  declare email: string;
 
   declare password: string;
 }
@@ -27,10 +26,6 @@ SequelizeUser.init({
     autoIncrement: true,
   },
   username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
     type: DataTypes.STRING,
     allowNull: false,
   },

@@ -8,8 +8,8 @@ export default class UserController {
   ) { }
 
   public async getUserInfo(req: Request, res: Response) {
-    const { email, password } = req.body;
-    const { status, data } = await this.userService.getUserInfo(email, password);
+    const { username, password } = req.body;
+    const { status, data } = await this.userService.getUserInfo(username, password);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
