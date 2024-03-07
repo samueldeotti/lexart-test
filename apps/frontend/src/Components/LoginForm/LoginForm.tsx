@@ -1,4 +1,5 @@
-import { Container, Form, LinkSpan } from '../../pages/Login/LoginStyle';
+import { Container, Form, LinkSpan } from './LoginFormStyle';
+import Input from '../Input/Input';
 
 type LoginFormProps = {
   handleSubmit: (e: React.FormEvent) => void;
@@ -46,53 +47,31 @@ export default function LoginForm({
         <h1>{isLogin ? 'Login' : 'Increva-se'}</h1>
         {loading ? <span id="loading">Carregando...</span> : (
           <div>
-            <div id="labelContainer">
-              <input
-                type="text"
-                id="username"
-                name="username"
-                placeholder="Username"
-                value={ username }
-                onChange={ (e) => { setUsername(e.target.value); } }
-                required
-              />
-              <label htmlFor="username">
-                usuario
-              </label>
-
-            </div>
-            <div id="labelContainer">
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="password"
-                value={ password }
-                onChange={ (e) => { setPassword(e.target.value); } }
-                required
-              />
-              <label htmlFor="password">
-                senha
-              </label>
-            </div>
+            <Input
+              type="text"
+              name="username"
+              value={ username }
+              setValue={ setUsername }
+              text="usuario"
+            />
+            <Input
+              type="password"
+              name="password"
+              value={ password }
+              setValue={ setPassword }
+              text="senha"
+            />
 
             {!isLogin
             && (
               <>
-                <div id="labelContainer">
-                  <input
-                    type="password"
-                    id="verifyPassword"
-                    name="verifyPassword"
-                    placeholder="verifyPassword"
-                    value={ verifyPassword }
-                    onChange={ (e) => { setverifyPassword(e.target.value); } }
-                    required
-                  />
-                  <label htmlFor="verifyPassword">
-                    verifique a senha
-                  </label>
-                </div>
+                <Input
+                  type="password"
+                  name="verifyPassword"
+                  value={ verifyPassword }
+                  setValue={ setverifyPassword }
+                  text="verique a senha"
+                />
 
                 <div>
                   <span
@@ -105,19 +84,19 @@ export default function LoginForm({
                     style={ {
                       color: verifyLength() ? 'green' : 'red' } }
                   >
-                    Precisam ter pelo menos 8 caracteres
+                    Pelo menos 8 caracteres
                   </span>
                   <span
                     style={ {
                       color: verifySpecialCharacter() ? 'green' : 'red' } }
                   >
-                    Precisam ter pelo menos um caractere especial
+                    Pelo menos um caractere especial
                   </span>
                   <span
                     style={ {
                       color: verifyNumber() ? 'green' : 'red' } }
                   >
-                    Precisam ter pelo menos um número
+                    Pelo menos um número
                   </span>
 
                 </div>

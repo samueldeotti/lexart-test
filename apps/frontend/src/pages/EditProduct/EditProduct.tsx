@@ -1,7 +1,8 @@
 /* eslint-disable no-alert */
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ProductsType } from '../../types/ProductsType';
+import ProductForm from '../../Components/ProductForm/ProductForm';
 
 export default function EditProduct() {
   const inicialInfo = {
@@ -52,7 +53,6 @@ export default function EditProduct() {
     setProductInfo({ ...productInfo, [target.name]: target.value });
   };
 
-  // adicionar função que manda para o backend e altera o produto
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -82,66 +82,14 @@ export default function EditProduct() {
     <div>
       {isLoading ? <p>Carregando...</p>
         : (
-          <form onSubmit={ handleSubmit }>
-            <label htmlFor="name">
-              Nome
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={ productInfo.name }
-                onChange={ handleChange }
-              />
-            </label>
-            <label htmlFor="brand">
-              Marca
-              <input
-                type="text"
-                name="brand"
-                id="brand"
-                value={ productInfo.brand }
-                onChange={ handleChange }
-              />
-            </label>
-            <label htmlFor="model">
-              Modelo
-              <input
-                type="text"
-                name="model"
-                id="model"
-                value={ productInfo.model }
-                onChange={ handleChange }
-              />
-            </label>
-
-            <label htmlFor="color">
-              Cor
-              <input
-                type="text"
-                name="color"
-                id="color"
-                onChange={ handleChange }
-                value={ productInfo.color }
-                required
-              />
-            </label>
-            <label htmlFor="price">
-              Preço
-              <input
-                type="number"
-                name="price"
-                id="price"
-                onChange={ handleChange }
-                value={ productInfo.price }
-                required
-              />
-            </label>
-
-            <button type="submit">Editar</button>
-            <button type="button" onClick={ handleQuit }>Cancelar</button>
-
-          </form>
-
+          <ProductForm
+            handleSubmit={ handleSubmit }
+            productInfo={ productInfo }
+            handleChange={ handleChange }
+            handleRemoveType={ () => {} }
+            handleAddType={ () => {} }
+            handleQuit={ handleQuit }
+          />
         )}
     </div>
   );

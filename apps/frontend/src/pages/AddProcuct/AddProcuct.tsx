@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormProductType } from '../../types/ProductsType';
+import ProductForm from '../../Components/ProductForm/ProductForm';
 
 export default function AddProcuct() {
   const inicialInfo: FormProductType = {
@@ -29,7 +30,7 @@ export default function AddProcuct() {
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     if (target.name === 'color' || target.name === 'price') {
       const newData = productInfo.data.map((item, index) => {
-        if (index === productInfo.data.length - productInfo.data.length) {
+        if (index === 0) {
           return { ...item, [target.name]: target.value };
         }
         return item;
@@ -96,80 +97,14 @@ export default function AddProcuct() {
   };
 
   return (
-    <form onSubmit={ handleSubmit }>
-      <label htmlFor="name">
-        Nome
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={ productInfo.name }
-          onChange={ handleChange }
-          required
-        />
-      </label>
-      <label htmlFor="brand">
-        Marca
-        <input
-          type="text"
-          name="brand"
-          id="brand"
-          value={ productInfo.brand }
-          onChange={ handleChange }
-          required
-        />
-      </label>
-      <label htmlFor="model">
-        Modelo
-        <input
-          type="text"
-          name="model"
-          id="model"
-          value={ productInfo.model }
-          onChange={ handleChange }
-          required
-        />
-      </label>
-      <div style={ { display: 'flex' } }>
-        {productInfo.data.map((item, index) => (
-          <div key={ index }>
-            <label htmlFor="color">
-              Cor
-              <input
-                type="text"
-                name="color"
-                id="color"
-                onChange={ handleChange }
-                value={ item.color }
-                required
-              />
-            </label>
-            <label htmlFor="price">
-              Preço
-              <input
-                type="number"
-                name="price"
-                id="price"
-                placeholder="0"
-                onChange={ handleChange }
-                value={ item.price as number }
-                required
-              />
-            </label>
-
-            {index ? (
-              <button type="button" onClick={ handleRemoveType }>Remover tipo</button>
-            ) : (
-              <button type="button" onClick={ handleAddType }>Adicionar tipo</button>
-            )}
-
-          </div>
-        ))}
-      </div>
-      <button type="submit">Adicionar</button>
-      <button type="button" onClick={ handleQuit }>Cancelar</button>
-
-    </form>
+    <ProductForm
+      handleSubmit={ handleSubmit }
+      productInfo={ productInfo }
+      handleChange={ handleChange }
+      handleRemoveType={ handleRemoveType }
+      handleAddType={ handleAddType }
+      handleQuit={ handleQuit }
+    />
 
   );
 }

@@ -54,7 +54,7 @@ export const ButtonContainer = styled.div`
     position: absolute;
     height: 100%;
     width: 1px;
-    background-color: #000;
+    background-color: #444;
     right: 0;
     top: 0;
   }
