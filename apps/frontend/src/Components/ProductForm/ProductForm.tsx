@@ -15,8 +15,6 @@ type ProductFormProps = {
 export default function ProductForm({ handleSubmit, productInfo,
   handleChange, handleRemoveType, handleAddType, handleQuit }: ProductFormProps) {
   const pathName = window.location.pathname;
-
-  console.log(productInfo);
   return (
     <Container style={ { marginTop: '40px' } }>
       <Form onSubmit={ handleSubmit }>

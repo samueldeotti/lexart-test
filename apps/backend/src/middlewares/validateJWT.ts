@@ -10,7 +10,6 @@ export default function validateJWT(req: any, res: Response, next: NextFunction)
     return
   }
 
-  console.log('enoutr')
   const token = bearerToken.split(' ')[1]
 
   try {

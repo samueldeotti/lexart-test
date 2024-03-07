@@ -12,7 +12,6 @@ type InputProps = {
 
 export default function Input({ type,
   name, value, setValue, text, required = false, isObject = false }: InputProps) {
-  console.log(name);
   return (
     <InputContainer id="labelContainer">
       <input
