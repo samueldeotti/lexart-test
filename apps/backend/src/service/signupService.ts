@@ -1,3 +1,4 @@
+import * as brypt from 'bcryptjs';
 import LoginModel from '../models/LoginModel';
 import SignupModel from '../models/SignupModel';
 import { ILoginModel } from '../Interfaces/Login/ILoginModel';
@@ -16,11 +17,13 @@ export default class SignupService {
 
   public async createUser(username: string, password: string): Promise<ServiceResponse<LoginResponse>> {
 
+    const hashedPassword = await brypt.hash(password, 10);
+
     const userExists = await this.loginModel.findByUsername(username);
 
     if (userExists) return { status: 'UNAUTHORIZED', data: { message: 'User already exists' } };
 
-    await this.signupModel.createUser(username, password);
+    await this.signupModel.createUser(username, hashedPassword);
 
     return { status: 'SUCCESSFUL', data: {message: 'User created'} };
   }

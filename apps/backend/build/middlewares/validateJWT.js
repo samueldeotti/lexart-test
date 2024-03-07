@@ -22,31 +22,26 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt = __importStar(require("bcryptjs"));
 const jwt = __importStar(require("jsonwebtoken"));
-const LoginModel_1 = __importDefault(require("../models/LoginModel"));
-class UserService {
-    constructor(loginModel = new LoginModel_1.default()) {
-        this.loginModel = loginModel;
+function validateJWT(req, res, next) {
+    var _a;
+    const bearerToken = req.header('Authorization');
+    if (!bearerToken) {
+        res.status(401).json({ message: 'Token not found' });
+        return;
     }
-    async getUserInfo(username, password) {
-        var _a;
-        const user = await this.loginModel.findByUsername(username);
-        if (!user)
-            return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        // const isPasswordValid = password === user.password
-        if (!isPasswordValid) {
-            return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
-        }
-        const token = jwt.sign({
-            id: user.id, username: user.username,
-        }, (_a = process.env.JWT_SECRET) !== null && _a !== void 0 ? _a : 'jwt_secret');
-        return { status: 'SUCCESSFUL', data: { token } };
+    console.log('enoutr');
+    const token = bearerToken.split(' ')[1];
+    try {
+        const decoded = jwt.verify(token, (_a = process.env.JWT_SECRET) !== null && _a !== void 0 ? _a : 'jwt_secret');
+        const { username } = decoded;
+        req.username = username;
+        next();
+    }
+    catch (error) {
+        res.status(401).json({ message: 'Expired or invalid token' });
+        return;
     }
 }
-exports.default = UserService;
+exports.default = validateJWT;

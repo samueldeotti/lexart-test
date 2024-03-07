@@ -12,6 +12,12 @@ class ProductService {
         const allProducts = await this.productModel.findAll();
         return { status: 'SUCCESSFUL', data: allProducts };
     }
+    async getProduct(id) {
+        const product = await this.productModel.findById(id);
+        if (!product)
+            return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
+        return { status: 'SUCCESSFUL', data: product };
+    }
     async deleteProduct(id) {
         const deletedProduct = await this.productModel.delete(id);
         return { status: 'SUCCESSFUL', data: deletedProduct };
@@ -19,6 +25,10 @@ class ProductService {
     async createProduct(product) {
         const createdProduct = await this.productModel.createProduct(product);
         return { status: 'SUCCESSFUL', data: createdProduct };
+    }
+    async updateProduct(id, product) {
+        const updatedProduct = await this.productModel.updateProduct(id, product);
+        return { status: 'SUCCESSFUL', data: updatedProduct };
     }
 }
 exports.default = ProductService;

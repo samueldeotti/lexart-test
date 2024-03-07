@@ -13,6 +13,11 @@ class ProductsController {
         const { status, data } = await this.productService.getProducts();
         return res.status((0, mapStatusHTTP_1.default)(status)).json(data);
     }
+    async getProduct(req, res) {
+        const { id } = req.params;
+        const { status, data } = await this.productService.getProduct(Number(id));
+        return res.status((0, mapStatusHTTP_1.default)(status)).json(data);
+    }
     async deleteProduct(req, res) {
         const { id } = req.params;
         const { status, data } = await this.productService.deleteProduct(id);
@@ -21,6 +26,12 @@ class ProductsController {
     async createProduct(req, res) {
         const { name, brand, model, price, color } = req.body;
         const { status, data } = await this.productService.createProduct({ name, brand, model, price: Number(price), color });
+        return res.status((0, mapStatusHTTP_1.default)(status)).json(data);
+    }
+    async updateProduct(req, res) {
+        const { id } = req.params;
+        const { name, brand, model, price, color } = req.body;
+        const { status, data } = await this.productService.updateProduct(id, { name, brand, model, price: Number(price), color });
         return res.status((0, mapStatusHTTP_1.default)(status)).json(data);
     }
 }

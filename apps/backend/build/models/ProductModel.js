@@ -14,6 +14,12 @@ class ProductModel {
             return null;
         return allProducts;
     }
+    async findById(id) {
+        const product = await this.model.findByPk(id);
+        if (!product)
+            return null;
+        return product;
+    }
     async delete(id) {
         const deletedProduct = await this.model.destroy({ where: { id } });
         if (!deletedProduct)
@@ -23,6 +29,12 @@ class ProductModel {
     async createProduct(product) {
         const createdProduct = await this.model.create(product);
         return createdProduct;
+    }
+    async updateProduct(id, product) {
+        const updatedProduct = await this.model.update(product, { where: { id } });
+        if (!updatedProduct)
+            throw new Error('Product not found');
+        return 'Product Updated';
     }
 }
 exports.default = ProductModel;
