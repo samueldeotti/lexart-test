@@ -22,10 +22,6 @@ export default function EditProduct() {
 
   useEffect(() => {
     const tokenLocalStorage = localStorage.getItem('token');
-    if (!tokenLocalStorage) {
-      alert('Faça login para acessar essa página');
-      navigate('/login');
-    }
     setToken(tokenLocalStorage as string);
 
     const getData = async () => {

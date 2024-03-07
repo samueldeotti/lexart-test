@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProductsType } from '../../types/ProductsType';
+import { ButtonContainer, ProductContainer, ProductInfo,
+  ProductsContainer } from './HomeStyle';
 
 export default function Home({ search }: { search: string }) {
   const [products, setProducts] = useState<ProductsType[]>([]);
@@ -12,10 +14,6 @@ export default function Home({ search }: { search: string }) {
   // falta fazer a verificação se o token é valido
   useEffect(() => {
     const tokenLocalStorage = localStorage.getItem('token');
-    if (!tokenLocalStorage) {
-      alert('Você precisa estar logado para acessar esta página');
-      navigate('/login');
-    }
     setToken(tokenLocalStorage as string);
 
     const getData = async () => {
@@ -62,31 +60,41 @@ export default function Home({ search }: { search: string }) {
   };
 
   return (
-    <div>
+    <ProductsContainer>
       {isLoading ? <p>Loading...</p>
         : (
           <>
             {products.filter((product) => product.name.toLowerCase()
               .includes(search.toLowerCase()))
               .map((product: ProductsType) => (
-                <div key={ product.id }>
-                  <button
-                    onClick={ () => navigate(`/edit-product/${product.id}`) }
-                  >
-                    LAPIS
-                  </button>
-                  <button onClick={ () => handleDelete(product.id as number) }>X</button>
+                <ProductContainer key={ product.id }>
+                  <ButtonContainer>
+                    <button
+                      onClick={ () => navigate(`/edit-product/${product.id}`) }
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={ () => handleDelete(product.id as number) }
+                    >
+                      Apagar
+                    </button>
+
+                  </ButtonContainer>
                   <h2>{product.name}</h2>
-                  <p>{product.brand}</p>
-                  <p>{product.model}</p>
-                  <p>{product.price}</p>
-                  <p>{product.color}</p>
-                </div>
+                  <ProductInfo>
+                    <p>{product.brand}</p>
+                    <p>{product.model}</p>
+                    <p>{`R$ ${product.price}`}</p>
+                    <p>{product.color}</p>
+
+                  </ProductInfo>
+                </ProductContainer>
 
               ))}
           </>
         )}
 
-    </div>
+    </ProductsContainer>
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FormProductType } from '../../types/ProductsType';
 
 export default function AddProcuct() {
@@ -17,16 +17,10 @@ export default function AddProcuct() {
 
   const navigate = useNavigate();
 
-  const [isLogged, setIsLogged] = useState(false);
   const [token, setToken] = useState('');
 
   useEffect(() => {
     const tokenLocalStorage = localStorage.getItem('token');
-    if (!tokenLocalStorage) {
-      setIsLogged(false);
-      return;
-    }
-    setIsLogged(true);
     setToken(tokenLocalStorage as string);
   }, [navigate]);
 
@@ -102,87 +96,80 @@ export default function AddProcuct() {
   };
 
   return (
-    isLogged ? (
-      <form onSubmit={ handleSubmit }>
-        <label htmlFor="name">
-          Nome
-          <input
-            type="text"
-            name="name"
-            id="name"
-            value={ productInfo.name }
-            onChange={ handleChange }
-            required
-          />
-        </label>
-        <label htmlFor="brand">
-          Marca
-          <input
-            type="text"
-            name="brand"
-            id="brand"
-            value={ productInfo.brand }
-            onChange={ handleChange }
-            required
-          />
-        </label>
-        <label htmlFor="model">
-          Modelo
-          <input
-            type="text"
-            name="model"
-            id="model"
-            value={ productInfo.model }
-            onChange={ handleChange }
-            required
-          />
-        </label>
-        <div style={ { display: 'flex' } }>
-          {productInfo.data.map((item, index) => (
-            <div key={ index }>
-              <label htmlFor="color">
-                Cor
-                <input
-                  type="text"
-                  name="color"
-                  id="color"
-                  onChange={ handleChange }
-                  value={ item.color }
-                  required
-                />
-              </label>
-              <label htmlFor="price">
-                Preço
-                <input
-                  type="number"
-                  name="price"
-                  id="price"
-                  placeholder="0"
-                  onChange={ handleChange }
-                  value={ item.price as number }
-                  required
-                />
-              </label>
+    <form onSubmit={ handleSubmit }>
+      <label htmlFor="name">
+        Nome
+        <input
+          type="text"
+          name="name"
+          id="name"
+          value={ productInfo.name }
+          onChange={ handleChange }
+          required
+        />
+      </label>
+      <label htmlFor="brand">
+        Marca
+        <input
+          type="text"
+          name="brand"
+          id="brand"
+          value={ productInfo.brand }
+          onChange={ handleChange }
+          required
+        />
+      </label>
+      <label htmlFor="model">
+        Modelo
+        <input
+          type="text"
+          name="model"
+          id="model"
+          value={ productInfo.model }
+          onChange={ handleChange }
+          required
+        />
+      </label>
+      <div style={ { display: 'flex' } }>
+        {productInfo.data.map((item, index) => (
+          <div key={ index }>
+            <label htmlFor="color">
+              Cor
+              <input
+                type="text"
+                name="color"
+                id="color"
+                onChange={ handleChange }
+                value={ item.color }
+                required
+              />
+            </label>
+            <label htmlFor="price">
+              Preço
+              <input
+                type="number"
+                name="price"
+                id="price"
+                placeholder="0"
+                onChange={ handleChange }
+                value={ item.price as number }
+                required
+              />
+            </label>
 
-              {index ? (
-                <button type="button" onClick={ handleRemoveType }>Remover tipo</button>
-              ) : (
-                <button type="button" onClick={ handleAddType }>Adicionar tipo</button>
-              )}
+            {index ? (
+              <button type="button" onClick={ handleRemoveType }>Remover tipo</button>
+            ) : (
+              <button type="button" onClick={ handleAddType }>Adicionar tipo</button>
+            )}
 
-            </div>
-          ))}
-        </div>
-        <button type="submit">Adicionar</button>
-        <button type="button" onClick={ handleQuit }>Cancelar</button>
+          </div>
+        ))}
+      </div>
+      <button type="submit">Adicionar</button>
+      <button type="button" onClick={ handleQuit }>Cancelar</button>
 
-      </form>
-    )
-      : (
-        <>
-          <h1>Você precisa estar logado para acessar essa pagina</h1>
-          <Link to="/login">Login</Link>
-        </>
-      )
+    </form>
+
   );
 }

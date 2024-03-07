@@ -1,12 +1,10 @@
-import { Link, useLocation } from 'react-router-dom';
-import './Header.css';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { SearchTypeProps } from '../../types/SearchTypeProps';
+import { HeaderContainer, Nav } from './HeaderStyle';
 
 export default function Header(props: SearchTypeProps) {
   const { handleChange } = props;
-
-  const location = useLocation();
 
   const [searchLocal, setSearchLocal] = useState('');
 
@@ -16,36 +14,35 @@ export default function Header(props: SearchTypeProps) {
   };
 
   return (
-    <nav>
-      <Link to="/products">Storage</Link>
-      <ul>
-        {location.pathname === '/products' ? (
-          <>
-            <form onSubmit={ handleSearch }>
-              <label htmlFor="search">
-                Search
-                <input
-                  type="text"
-                  name="search"
-                  id="search"
-                  value={ searchLocal }
-                  onChange={ (e) => setSearchLocal(e.target.value) }
-                />
-              </label>
-              <button type="submit">aaa</button>
-            </form>
-            <li><Link to="/add-product">add</Link></li>
-          </>
-        ) : (<li><Link to="/products">Products</Link></li>)}
-        <li>
-          <Link
-            to="/login"
-            onClick={ () => localStorage.removeItem('token') }
-          >
-            Log Out
-          </Link>
-        </li>
-      </ul>
-    </nav>
+    <HeaderContainer>
+      <Nav>
+        <ul>
+          <li><Link to="/products">Storage</Link></li>
+          <form onSubmit={ handleSearch }>
+            <input
+              type="text"
+              name="search"
+              id="search"
+              value={ searchLocal }
+              placeholder="Search"
+              onChange={ (e) => setSearchLocal(e.target.value) }
+            />
+            <button type="submit">pesquisar</button>
+          </form>
+
+          <div id="addProducts">
+            <Link to="/add-product">Adicionar Produto</Link>
+            <Link
+              to="/login"
+              onClick={ () => localStorage.removeItem('token') }
+            >
+              Sair
+            </Link>
+
+          </div>
+        </ul>
+      </Nav>
+
+    </HeaderContainer>
   );
 }
