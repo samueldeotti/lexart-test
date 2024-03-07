@@ -28,6 +28,7 @@ function App() {
         <Route path="/add-product" element={ <AddProcuct /> } />
         <Route path="/edit-product/:id" element={ <EditProduct /> } />
       </Route>
+      <Route path="*" element={ <Navigate to="/login" /> } />
     </Routes>
   );
 }

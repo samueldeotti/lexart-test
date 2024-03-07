@@ -85,6 +85,7 @@ export const Form = styled.form`
     color: transparent
   }
 
+
   button {
     background-color: #21DD91;
     cursor: pointer;
