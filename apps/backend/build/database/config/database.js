@@ -7,6 +7,7 @@ const config = {
     database: BASE_DATABASE,
     host: BASE_HOST,
     dialect: 'postgres',
+    dialectModule: require('pg'),
     port: 5432,
     dialectOptions: {
         ssl: {
