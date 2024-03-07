@@ -13,4 +13,18 @@ export default class ProductService {
 
     return { status: 'SUCCESSFUL', data: allProducts  };
   }
+
+  public async deleteProduct(id: string): Promise<ServiceResponse<string>> {
+    const deletedProduct = await this.productModel.delete(id);
+
+    return { status: 'SUCCESSFUL', data: deletedProduct };
+  }
+
+  public async createProduct(product: Product): Promise<ServiceResponse<Product>> {
+    const createdProduct = await this.productModel.createProduct(product);
+
+    return { status: 'SUCCESSFUL', data: createdProduct };
+  }
+
+
 }

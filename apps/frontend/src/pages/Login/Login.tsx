@@ -11,6 +11,7 @@ export default function Login() {
   // MikeWazowski
   // Mike123#
 
+  // falta fazer a verificação se o token é valido
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) navigate('/products');
@@ -73,7 +74,7 @@ export default function Login() {
       {wrongLogin && <span>Usuário ou senha incorretos</span>}
       <span>
         Não possui uma conta?
-        <Link to="/sign-up">Increva-se</Link>
+        <Link to="/signup">Increva-se</Link>
       </span>
 
     </form>

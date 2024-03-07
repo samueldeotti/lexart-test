@@ -27,7 +27,14 @@ export default function Header(props: SearchTypeProps) {
           </>
         ) : (<li><Link to="/products">Products</Link></li>)}
         {/* arrumar rota, COLOCAR FUNÇÃO ON CLICK AQUI */}
-        <li><Link to="/login">Log Out</Link></li>
+        <li>
+          <Link
+            to="/login"
+            onClick={ () => localStorage.removeItem('token') }
+          >
+            Log Out
+          </Link>
+        </li>
       </ul>
     </nav>
   );

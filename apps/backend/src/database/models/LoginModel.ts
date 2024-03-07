@@ -14,7 +14,6 @@ class SequelizeUser extends
 
   declare username: string;
 
-
   declare password: string;
 }
 

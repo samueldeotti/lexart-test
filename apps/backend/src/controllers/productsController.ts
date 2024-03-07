@@ -8,10 +8,21 @@ export default class ProductsController {
   ) { }
 
   public async getProducts(_req: Request, res: Response) {
-    console.log('enotru')
     const { status, data } = await this.productService.getProducts();
-
-
     return res.status(mapStatusHTTP(status)).json(data);
   }
+
+  public async deleteProduct(req: Request, res: Response) {
+    const { id } = req.params;
+    const { status, data } = await this.productService.deleteProduct(id);
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+
+    public async createProduct(req: Request, res: Response) {
+      const { name, brand, model, price, color } = req.body;
+      const { status, data } = await this.productService.createProduct({ name, brand, model, price: Number(price), color });
+      
+      return res.status(mapStatusHTTP(status)).json(data);
+  }
+
 }

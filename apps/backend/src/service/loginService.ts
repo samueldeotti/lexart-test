@@ -18,8 +18,6 @@ export default class UserService {
 
     if (!user) return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
 
-    console.log()
-
     // const isPasswordValid = await bcrypt.compare(password, user.password);
 
     //ARRUMAR ESSA PARTE PARA FICAR IGUAL DE CIMA

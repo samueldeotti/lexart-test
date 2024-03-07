@@ -9,7 +9,19 @@ export default class ProductModel implements IProductModel {
     const allProducts = await this.model.findAll();
     if (!allProducts) return null;
 
-    console.log(allProducts)
     return allProducts;
   }
+
+  async delete(id: string): Promise<string> {
+    const deletedProduct = await this.model.destroy({ where: { id } });
+    if (!deletedProduct) return 'Product not found';
+
+    return 'Product deleted';
+  }
+
+  async createProduct(product: Product): Promise<Product> {
+    const createdProduct = await this.model.create(product);
+    return createdProduct;
+  }
+
 }

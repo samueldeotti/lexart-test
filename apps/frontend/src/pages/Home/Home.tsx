@@ -7,7 +7,14 @@ export default function Home({ search }: { search: string }) {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
+  // falta fazer a verificação se o token é valido
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Você precisa estar logado para acessar esta página');
+      navigate('/login');
+    }
+
     const getData = async () => {
       const response = await fetch('http://localhost:5432/products');
       const data = await response.json();
@@ -17,11 +24,18 @@ export default function Home({ search }: { search: string }) {
     getData();
   }, []);
 
-  const handleDelete = (idProduct: number) => {
-    // AINDA FALTA MANDAR A REQUISIÇÃO PARA O BACKEND
-    // TALVEZ SEJA MELHOR FAZER UMA REQUISIÇÃO PARA O BACKEND E DELETAR O ITEM DO QUE FILTRAR DIRETAMENTE AQUI
-    const getNewData = products.filter((_, index) => index !== idProduct);
-    setProducts(getNewData);
+  const handleDelete = async (idProduct: number) => {
+    if (window.confirm('Deseja realmente deletar este produto?')) {
+      const getNewData = products.filter(({ id }) => id !== idProduct);
+      const response = await fetch(`http://localhost:5432/products/${idProduct}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        alert('Erro ao deletar produto');
+        return;
+      }
+      setProducts(getNewData);
+    }
   };
 
   return (

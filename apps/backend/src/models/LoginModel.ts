@@ -7,7 +7,6 @@ export default class UserModel implements ILoginModel {
 
   async findByUsername(username:string): Promise<User | null> {
     const user = await this.model.findOne({ where: { username } });
-    console.log(user?.dataValues)
     if (!user) return null;
 
     return user.dataValues;

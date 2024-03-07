@@ -1,15 +1,35 @@
 import { useState } from 'react';
 import '../Login/Login.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
 
-  // implementar verificação de SignUp
+  const navigate = useNavigate();
+
   const verifySignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('username:', username);
+
+    const response = await fetch('http://localhost:5432/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (response.ok) {
+      alert('Conta criada com sucesso');
+      navigate('/login');
+      return;
+    }
+    if (response.statusText === 'Unauthorized') {
+      alert('Usuario ja existente');
+      return;
+    }
+    alert('Erro ao criar conta');
   };
 
   return (
@@ -21,7 +41,7 @@ export default function SignUp() {
           id="username"
           name="username"
           placeholder="Username"
-          value={ username }
+          value={ username.trim() }
           onChange={ (e) => { setUsername(e.target.value); } }
           required
         />
@@ -41,7 +61,7 @@ export default function SignUp() {
       <label htmlFor="checkPassword">
         verify password
         <input
-          type="checkPassword"
+          type="password"
           id="checkPassword"
           name="checkPassword"
           placeholder="verify password"
