@@ -4,15 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mapStatusHTTP_1 = __importDefault(require("../utils/mapStatusHTTP"));
-const loginService_1 = __importDefault(require("../service/loginService"));
-class UserController {
-    constructor(userService = new loginService_1.default()) {
-        this.userService = userService;
+const signupService_1 = __importDefault(require("../service/signupService"));
+class SignupController {
+    constructor(signupService = new signupService_1.default()) {
+        this.signupService = signupService;
     }
-    async getUserInfo(req, res) {
+    async createUser(req, res) {
         const { username, password } = req.body;
-        const { status, data } = await this.userService.getUserInfo(username, password);
+        const { status, data } = await this.signupService.createUser(username, password);
         return res.status((0, mapStatusHTTP_1.default)(status)).json(data);
     }
 }
-exports.default = UserController;
+exports.default = SignupController;

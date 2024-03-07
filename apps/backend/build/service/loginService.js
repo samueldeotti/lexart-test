@@ -22,41 +22,31 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt = __importStar(require("bcryptjs"));
 const jwt = __importStar(require("jsonwebtoken"));
 const LoginModel_1 = __importDefault(require("../models/LoginModel"));
 class UserService {
     constructor(loginModel = new LoginModel_1.default()) {
         this.loginModel = loginModel;
     }
-    getUserInfo(username, password) {
+    async getUserInfo(username, password) {
         var _a;
-        return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.loginModel.findByUsername(username);
-            if (!user)
-                return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
-            const isPasswordValid = yield bcrypt.compare(password, user.password);
-            if (!isPasswordValid) {
-                return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
-            }
-            const token = jwt.sign({
-                id: user.id, username: user.username,
-            }, (_a = process.env.JWT_SECRET) !== null && _a !== void 0 ? _a : 'jwt_secret');
-            return { status: 'SUCCESSFUL', data: { token } };
-        });
+        const user = await this.loginModel.findByUsername(username);
+        if (!user)
+            return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
+        // const isPasswordValid = await bcrypt.compare(password, user.password);
+        //ARRUMAR ESSA PARTE PARA FICAR IGUAL DE CIMA
+        const isPasswordValid = password === user.password;
+        if (!isPasswordValid) {
+            return { status: 'UNAUTHORIZED', data: { message: 'Invalid username or password' } };
+        }
+        const token = jwt.sign({
+            id: user.id, username: user.username,
+        }, (_a = process.env.JWT_SECRET) !== null && _a !== void 0 ? _a : 'jwt_secret');
+        return { status: 'SUCCESSFUL', data: { token } };
     }
 }
 exports.default = UserService;
