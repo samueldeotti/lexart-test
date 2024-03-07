@@ -16,7 +16,7 @@
 // };
 
 export type ProductsType = {
-  id?: number
+  id: number
   name: string,
   brand: string,
   model: string,

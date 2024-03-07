@@ -18,15 +18,17 @@ export default function AddProcuct() {
   const navigate = useNavigate();
 
   const [isLogged, setIsLogged] = useState(false);
+  const [token, setToken] = useState('');
 
   // falta fazer a verificação se o token é valido
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    const tokenLocalStorage = localStorage.getItem('token');
+    if (!tokenLocalStorage) {
       setIsLogged(false);
       return;
     }
     setIsLogged(true);
+    setToken(tokenLocalStorage as string);
   }, [navigate]);
 
   const [productInfo, setProductInfo] = useState<FormProductType>(inicialInfo);
@@ -34,7 +36,7 @@ export default function AddProcuct() {
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     if (target.name === 'color' || target.name === 'price') {
       const newData = productInfo.data.map((item, index) => {
-        if (index === productInfo.data.length - 1) {
+        if (index === productInfo.data.length - productInfo.data.length) {
           return { ...item, [target.name]: target.value };
         }
         return item;
@@ -63,9 +65,10 @@ export default function AddProcuct() {
     event.preventDefault();
 
     productInfo.data.map(async (item) => {
-      const response = await fetch('http://localhost:5432/products', {
+      const response = await fetch('https://lexart-test-server-psi.vercel.app/products', {
         method: 'POST',
         headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -76,6 +79,14 @@ export default function AddProcuct() {
           color: item.color,
         }),
       });
+
+      const data = await response.json();
+      if (data.message) {
+        alert('Token inválido, faça login novamente');
+        localStorage.removeItem('token');
+        navigate('/login');
+        return;
+      }
 
       if (response.ok) {
         alert('Produto adicionado com sucesso');

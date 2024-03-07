@@ -14,6 +14,14 @@ export default class ProductService {
     return { status: 'SUCCESSFUL', data: allProducts  };
   }
 
+  public async getProduct(id: number): Promise<ServiceResponse<Product | null>> {
+    const product = await this.productModel.findById(id);
+
+    if (!product) return { status: 'NOT_FOUND', data: {message: 'Product not found'} };
+
+    return { status: 'SUCCESSFUL', data: product };
+  }
+
   public async deleteProduct(id: string): Promise<ServiceResponse<string>> {
     const deletedProduct = await this.productModel.delete(id);
 
@@ -24,6 +32,12 @@ export default class ProductService {
     const createdProduct = await this.productModel.createProduct(product);
 
     return { status: 'SUCCESSFUL', data: createdProduct };
+  }
+
+  public async updateProduct(id: string, product: Product): Promise<ServiceResponse<string>> {
+    const updatedProduct = await this.productModel.updateProduct(id, product);
+
+    return { status: 'SUCCESSFUL', data: updatedProduct };
   }
 
 

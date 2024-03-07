@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProductsType } from '../../types/ProductsType';
@@ -6,34 +7,56 @@ export default function Home({ search }: { search: string }) {
   const [products, setProducts] = useState<ProductsType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const [token, setToken] = useState('');
 
   // falta fazer a verificação se o token é valido
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    const tokenLocalStorage = localStorage.getItem('token');
+    if (!tokenLocalStorage) {
       alert('Você precisa estar logado para acessar esta página');
       navigate('/login');
     }
+    setToken(tokenLocalStorage as string);
 
     const getData = async () => {
-      const response = await fetch('http://localhost:5432/products');
+      const response = await fetch('https://lexart-test-server-psi.vercel.app/products', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${tokenLocalStorage}`,
+        },
+      });
       const data = await response.json();
-      setProducts(data);
+
+      if (data.message) {
+        alert('Token inválido, faça login novamente');
+        localStorage.removeItem('token');
+        navigate('/login');
+        return;
+      }
+
+      const sortedData = data
+        .sort((a: ProductsType, b: ProductsType) => a.id as number - b.id as number);
+      setProducts(sortedData);
       setIsLoading(false);
     };
     getData();
-  }, []);
+  }, [navigate]);
 
   const handleDelete = async (idProduct: number) => {
     if (window.confirm('Deseja realmente deletar este produto?')) {
       const getNewData = products.filter(({ id }) => id !== idProduct);
-      const response = await fetch(`http://localhost:5432/products/${idProduct}`, {
+      const response = await fetch(`https://lexart-test-server-psi.vercel.app/products/${idProduct}`, {
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       });
       if (!response.ok) {
         alert('Erro ao deletar produto');
         return;
       }
+      alert('Produto deletado com sucesso');
       setProducts(getNewData);
     }
   };

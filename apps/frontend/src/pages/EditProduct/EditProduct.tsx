@@ -1,61 +1,80 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { GenericProductsType } from '../../types/ProductsType';
+/* eslint-disable no-alert */
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ProductsType } from '../../types/ProductsType';
 
 export default function EditProduct() {
-  const inicialInfo: GenericProductsType = {
+  const inicialInfo = {
+    id: 0,
     name: '',
     brand: '',
     model: '',
-    data: [
-      {
-        color: '',
-        price: 0,
-      },
-    ],
+    color: '',
+    price: 0,
   };
 
-  // const { id } = useParams();
-
-  // fazer um get info para o backend - passar o id do produto, vai estar na rota, o inicial info vai começar com os dados do produto
-
-  // ai quando eu clicar eu atualizar fazer um patch para o backend
-
-  const [productInfo, setProductInfo] = useState<GenericProductsType>(inicialInfo);
+  const { id } = useParams();
+  const [productInfo, setProductInfo] = useState<ProductsType>(inicialInfo);
+  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState('');
 
   const navigate = useNavigate();
 
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    if (target.name === 'color' || target.name === 'price') {
-      const newData = productInfo.data.map((item, index) => {
-        if (index === productInfo.data.length - 1) {
-          return { ...item, [target.name]: target.value };
-        }
-        return item;
+  useEffect(() => {
+    const tokenLocalStorage = localStorage.getItem('token');
+    if (!tokenLocalStorage) {
+      alert('Faça login para acessar essa página');
+      navigate('/login');
+    }
+    setToken(tokenLocalStorage as string);
+
+    const getData = async () => {
+      const response = await fetch(`http://localhost:5432/products/${id}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${tokenLocalStorage}`,
+        },
+
       });
 
-      setProductInfo({ ...productInfo, data: newData });
-      return;
-    }
+      const data = await response.json();
 
+      if (data.message) {
+        alert('Token inválido, faça login novamente');
+        localStorage.removeItem('token');
+        navigate('/login');
+        return;
+      }
+
+      setProductInfo(data);
+      setIsLoading(false);
+    };
+    getData();
+  }, [id, navigate]);
+
+  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setProductInfo({ ...productInfo, [target.name]: target.value });
   };
 
-  const handleAddType = () => {
-    const newData = productInfo;
-    newData.data.unshift({ color: '', price: 0 });
-    setProductInfo({ ...productInfo, data: newData.data });
-  };
-  const handleRemoveType = () => {
-    const newData = productInfo.data
-      .filter((_, index) => index !== productInfo.data.length - 1);
-    setProductInfo({ ...productInfo, data: newData });
-  };
-
-  // adicionar função que manda para o backend e cria um novo produto
-  const handleSubmit = (event: React.FormEvent) => {
+  // adicionar função que manda para o backend e altera o produto
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setProductInfo(inicialInfo);
+
+    const response = await fetch(`http://localhost:5432/products/${id}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productInfo),
+    });
+
+    if (response.ok) {
+      alert('Produto alterado com sucesso');
+      navigate('/products');
+      return;
+    }
+    alert('Erro ao alterar produto');
   };
 
   const handleQuit = () => {
@@ -64,40 +83,41 @@ export default function EditProduct() {
   };
 
   return (
-    <form onSubmit={ handleSubmit }>
-      <label htmlFor="name">
-        Nome
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={ productInfo.name }
-          onChange={ handleChange }
-        />
-      </label>
-      <label htmlFor="brand">
-        Marca
-        <input
-          type="text"
-          name="brand"
-          id="brand"
-          value={ productInfo.brand }
-          onChange={ handleChange }
-        />
-      </label>
-      <label htmlFor="model">
-        Modelo
-        <input
-          type="text"
-          name="model"
-          id="model"
-          value={ productInfo.model }
-          onChange={ handleChange }
-        />
-      </label>
-      <div style={ { display: 'flex' } }>
-        {productInfo.data.map((item, index) => (
-          <div key={ index }>
+    <div>
+      {isLoading ? <p>Carregando...</p>
+        : (
+          <form onSubmit={ handleSubmit }>
+            <label htmlFor="name">
+              Nome
+              <input
+                type="text"
+                name="name"
+                id="name"
+                value={ productInfo.name }
+                onChange={ handleChange }
+              />
+            </label>
+            <label htmlFor="brand">
+              Marca
+              <input
+                type="text"
+                name="brand"
+                id="brand"
+                value={ productInfo.brand }
+                onChange={ handleChange }
+              />
+            </label>
+            <label htmlFor="model">
+              Modelo
+              <input
+                type="text"
+                name="model"
+                id="model"
+                value={ productInfo.model }
+                onChange={ handleChange }
+              />
+            </label>
+
             <label htmlFor="color">
               Cor
               <input
@@ -105,34 +125,28 @@ export default function EditProduct() {
                 name="color"
                 id="color"
                 onChange={ handleChange }
-                value={ item.color }
+                value={ productInfo.color }
                 required
               />
             </label>
             <label htmlFor="price">
               Preço
               <input
-                type="text"
+                type="number"
                 name="price"
                 id="price"
                 onChange={ handleChange }
-                value={ item.price }
+                value={ productInfo.price }
                 required
               />
             </label>
 
-            {index ? (
-              <button type="button" onClick={ handleRemoveType }>Remover tipo</button>
-            ) : (
-              <button type="button" onClick={ handleAddType }>Adicionar tipo</button>
-            )}
+            <button type="submit">Editar</button>
+            <button type="button" onClick={ handleQuit }>Cancelar</button>
 
-          </div>
-        ))}
-      </div>
-      <button type="submit">Editar</button>
-      <button type="button" onClick={ handleQuit }>Cancelar</button>
+          </form>
 
-    </form>
+        )}
+    </div>
   );
 }

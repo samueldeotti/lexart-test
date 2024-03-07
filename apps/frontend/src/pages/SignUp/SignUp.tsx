@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { useState } from 'react';
 import '../Login/Login.css';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +13,7 @@ export default function SignUp() {
   const verifySignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:5432/signup', {
+    const response = await fetch('https://lexart-test-server-psi.vercel.app/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +54,8 @@ export default function SignUp() {
           id="password"
           name="password"
           placeholder="password"
-          value={ password }
+          value={ password.trim() }
+          minLength={ 8 }
           onChange={ (e) => { setPassword(e.target.value); } }
           required
         />
@@ -65,7 +67,8 @@ export default function SignUp() {
           id="checkPassword"
           name="checkPassword"
           placeholder="verify password"
-          value={ checkPassword }
+          minLength={ 8 }
+          value={ checkPassword.trim() }
           onChange={ (e) => { setCheckPassword(e.target.value); } }
           required
         />

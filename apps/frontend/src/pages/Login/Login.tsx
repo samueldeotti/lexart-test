@@ -21,7 +21,7 @@ export default function Login() {
   const verifyLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch('http://localhost:5432/login', {
+    const response = await fetch('https://lexart-test-server-psi.vercel.app/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +61,6 @@ export default function Login() {
           type="password"
           id="password"
           name="password"
-          minLength={ 8 }
           placeholder="password"
           value={ password }
           onChange={ (e) => { setPassword(e.target.value); } }
