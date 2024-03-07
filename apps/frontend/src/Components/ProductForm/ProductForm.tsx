@@ -1,11 +1,11 @@
-import { FormProductType, ProductsType } from '../../types/ProductsType';
+import { DataProductType } from '../../types/ProductsType';
 import Input from '../Input/Input';
 import { Container, Form } from '../LoginForm/LoginFormStyle';
 import { TypesContainer } from './ProductFormStyle';
 
 type ProductFormProps = {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  productInfo: FormProductType | ProductsType;
+  productInfo: any;
   handleChange: (e: any) => void;
   handleRemoveType: () => void;
   handleAddType: () => void;
@@ -74,7 +74,7 @@ export default function ProductForm({ handleSubmit, productInfo,
 
           {pathName.includes('add') && (
             <TypesContainer id="types">
-              {productInfo.data.map((item, index) => (
+              {productInfo.data.map((item: DataProductType, index: number) => (
                 <div key={ index }>
                   <div>
                     <Input
