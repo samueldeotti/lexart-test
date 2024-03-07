@@ -59,6 +59,7 @@ export const ButtonContainer = styled.div`
     top: 0;
   }
 
+  
   button:nth-child(2) {
     border-radius: 0 6px 0 0;
     background-color: #21DD91;
