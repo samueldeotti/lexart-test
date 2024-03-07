@@ -20,7 +20,6 @@ export default function AddProcuct() {
   const [isLogged, setIsLogged] = useState(false);
   const [token, setToken] = useState('');
 
-  // falta fazer a verificação se o token é valido
   useEffect(() => {
     const tokenLocalStorage = localStorage.getItem('token');
     if (!tokenLocalStorage) {

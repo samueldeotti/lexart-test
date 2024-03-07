@@ -9,8 +9,8 @@ import EditProduct from './pages/EditProduct/EditProduct';
 
 function App() {
   const [search, setSearch] = useState('');
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const handleSearch = (searchValue: string) => {
+    setSearch(searchValue);
   };
 
   return (
