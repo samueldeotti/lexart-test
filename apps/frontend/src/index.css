@@ -5,12 +5,32 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #b1b1b1;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  margin: 0;
+  padding: 0;
 }
 
+@font-face {
+  font-family: 'UniviaPro';
+  src: url('/fonts/UniviaPro-Regular/UniviaPro-Regular.woff') format('opentype');
+}
+
+@font-face {
+  font-family: 'MonumentExtended';
+  src: url('/fonts/Monumented/MonumentExtended-Regular.otf') format('opentype');
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+  font-family: 'UniviaPro', sans-serif;
+  font-size: 16px;
+}

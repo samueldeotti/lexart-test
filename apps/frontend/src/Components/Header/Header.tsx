@@ -37,7 +37,6 @@ export default function Header(props: SearchTypeProps) {
             <li><Link to="/add-product">add</Link></li>
           </>
         ) : (<li><Link to="/products">Products</Link></li>)}
-        {/* arrumar rota, COLOCAR FUNÇÃO ON CLICK AQUI */}
         <li>
           <Link
             to="/login"
