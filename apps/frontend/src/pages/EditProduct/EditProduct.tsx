@@ -26,7 +26,7 @@ export default function EditProduct() {
     setToken(tokenLocalStorage as string);
 
     const getData = async () => {
-      const response = await fetch(`http://localhost:5432/products/${id}`, {
+      const response = await fetch(`https://lexart-test-server-psi.vercel.app/products/${id}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${tokenLocalStorage}`,
@@ -56,7 +56,7 @@ export default function EditProduct() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const response = await fetch(`http://localhost:5432/products/${id}`, {
+    const response = await fetch(`https://lexart-test-server-psi.vercel.app/products/${id}`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
