@@ -12,13 +12,13 @@ export const HeaderContainer = styled.header`
 export const Nav = styled.nav`
   display: flex;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 0;
   
   ul {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     list-style: none;
   }
 
@@ -26,9 +26,16 @@ export const Nav = styled.nav`
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 80%;
+
+    & button {
+      color: white;
+    }
   }
 
   input {
+    width: 40%;
+    max-width: 200px;
     border-radius: 4px 0 0 4px;
     outline: 1px solid #ccc;
     color: black;
@@ -74,7 +81,9 @@ export const Nav = styled.nav`
   #addProducts {
     display: flex;
     align-items: center;
-    gap: 10px;
+    /* flex-wrap: wrap; */
+    gap: 1rem;
+    margin-right: 10px;
     justify-content: center;
   }
 

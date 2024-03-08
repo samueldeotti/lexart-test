@@ -24,14 +24,14 @@ export default function Header(props: SearchTypeProps) {
               name="search"
               id="search"
               value={ searchLocal }
-              placeholder="Search"
+              placeholder="Pesquisar"
               onChange={ (e) => setSearchLocal(e.target.value) }
             />
             <button type="submit">pesquisar</button>
           </form>
 
           <div id="addProducts">
-            <Link to="/add-product">Adicionar Produto</Link>
+            <Link to="/add-product">Adicionar</Link>
             <Link
               to="/login"
               onClick={ () => localStorage.removeItem('token') }

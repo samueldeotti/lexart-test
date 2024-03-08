@@ -6,7 +6,7 @@ export const ProductsContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 0.5rem;
 `;
 export const ProductContainer = styled.div`
   color: black;

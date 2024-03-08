@@ -98,24 +98,22 @@ export default function ProductForm({ handleSubmit, productInfo,
 
                   </div>
 
-                  {pathName.includes('add') && (
-                    index ? (
-                      <button
-                        type="button"
-                        style={ { backgroundColor: '#e93131' } }
-                        onClick={ handleRemoveType }
-                      >
-                        Remover tipo
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        style={ { backgroundColor: '#1b738b' } }
-                        onClick={ handleAddType }
-                      >
-                        Adicionar tipo
-                      </button>
-                    )
+                  {index ? (
+                    <button
+                      type="button"
+                      style={ { backgroundColor: '#e93131' } }
+                      onClick={ handleRemoveType }
+                    >
+                      Remover tipo
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      style={ { backgroundColor: '#1b738b' } }
+                      onClick={ handleAddType }
+                    >
+                      Adicionar tipo
+                    </button>
                   )}
 
                 </div>
