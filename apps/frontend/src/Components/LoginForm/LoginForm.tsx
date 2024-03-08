@@ -1,5 +1,6 @@
 import { Container, Form, LinkSpan } from './LoginFormStyle';
 import Input from '../Input/Input';
+import CheckPassword from './CheckPassword';
 
 type LoginFormProps = {
   handleSubmit: (e: React.FormEvent) => void;
@@ -26,7 +27,7 @@ export default function LoginForm({
   verifyPassword = '',
   isLogin = true }: LoginFormProps) {
   const verifyLength = () => password.length >= 8;
-  const verifyEquality = () => password === verifyPassword;
+  const verifyEquality = () => (password && password === verifyPassword);
   const verifySpecialCharacter = () => {
     const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/g;
     return specialCharacters.test(password);
@@ -45,24 +46,23 @@ export default function LoginForm({
     <Container id="content">
       <Form onSubmit={ handleSubmit }>
         <h1>{isLogin ? 'Login' : 'Increva-se'}</h1>
-        {loading ? <span id="loading">Carregando...</span> : (
-          <div>
-            <Input
-              type="text"
-              name="username"
-              value={ username }
-              setValue={ setUsername }
-              text="usuario"
-            />
-            <Input
-              type="password"
-              name="password"
-              value={ password }
-              setValue={ setPassword }
-              text="senha"
-            />
+        <div>
+          <Input
+            type="text"
+            name="username"
+            value={ username }
+            setValue={ setUsername }
+            text="usuario"
+          />
+          <Input
+            type="password"
+            name="password"
+            value={ password }
+            setValue={ setPassword }
+            text="senha"
+          />
 
-            {!isLogin
+          {!isLogin
             && (
               <>
                 <Input
@@ -74,44 +74,35 @@ export default function LoginForm({
                 />
 
                 <div>
-                  <span
-                    style={ {
-                      color: (password && verifyEquality()) ? 'green' : 'red' } }
-                  >
-                    As senhas precisam ser iguais
-                  </span>
-                  <span
-                    style={ {
-                      color: verifyLength() ? 'green' : 'red' } }
-                  >
-                    Pelo menos 8 caracteres
-                  </span>
-                  <span
-                    style={ {
-                      color: verifySpecialCharacter() ? 'green' : 'red' } }
-                  >
-                    Pelo menos um caractere especial
-                  </span>
-                  <span
-                    style={ {
-                      color: verifyNumber() ? 'green' : 'red' } }
-                  >
-                    Pelo menos um número
-                  </span>
-
+                  <CheckPassword
+                    isValid={ (verifyEquality() as boolean) }
+                    text="As senhas precisam ser iguais"
+                  />
+                  <CheckPassword
+                    isValid={ verifyLength() }
+                    text="Pelo menos 8 caracteres"
+                  />
+                  <CheckPassword
+                    isValid={ verifySpecialCharacter() }
+                    text="Pelo menos um caractere especial"
+                  />
+                  <CheckPassword
+                    isValid={ verifyNumber() }
+                    text="Pelo menos um número"
+                  />
                 </div>
 
                 <button
                   type="submit"
                   disabled={ !verifyCredentials() }
                 >
-                  Criar conta
+                  {loading ? 'Carregando...' : 'Criar conta'}
                 </button>
               </>
             )}
 
-            {wrongLogin && <span id="invalidSpan">Usuário ou senha inválidos</span>}
-            { isLogin
+          {wrongLogin && <span id="invalidSpan">Usuário ou senha inválidos</span>}
+          { isLogin
             && (
               <>
                 <span>
@@ -119,14 +110,15 @@ export default function LoginForm({
                   {' '}
                   <LinkSpan to="/signup">Increva-se </LinkSpan>
                 </span>
-
-                <button type="submit">Login</button>
-
+                <button
+                  disabled={ loading }
+                  type="submit"
+                >
+                  {loading ? 'Carregando...' : 'Login'}
+                </button>
               </>
             )}
-          </div>
-
-        )}
+        </div>
 
       </Form>
 

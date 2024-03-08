@@ -22,7 +22,6 @@ export default function SignUp() {
       body: JSON.stringify({ username, password }),
     });
 
-
     setloading(false);
     if (response.ok) {
       alert('Conta criada com sucesso');

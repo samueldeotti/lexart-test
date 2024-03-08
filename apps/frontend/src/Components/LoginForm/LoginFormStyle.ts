@@ -49,6 +49,11 @@ export const Form = styled.form`
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.30);
   }
 
+  button:disabled {
+    background-color: #21dd9299;
+    cursor: not-allowed;
+  }
+
   span {
     margin-top: 10px;
     align-self: flex-start;

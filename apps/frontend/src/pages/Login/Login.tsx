@@ -7,7 +7,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const [wrongLogin, setWrongLogin] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -16,7 +16,7 @@ export default function Login() {
 
   const verifyLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
     const response = await fetch('https://lexart-test-server-psi.vercel.app/login', {
       method: 'POST',
       headers: {
@@ -30,10 +30,10 @@ export default function Login() {
       localStorage.setItem('token', data.token);
       navigate('/products');
       setWrongLogin(false);
-      setLoading(false);
+      setIsLoading(false);
       return;
     }
-    setLoading(false);
+    setIsLoading(false);
     setWrongLogin(true);
     setPassword('');
   };
@@ -41,7 +41,7 @@ export default function Login() {
   return (
     <LoginForm
       handleSubmit={ verifyLogin }
-      loading={ loading }
+      loading={ isLoading }
       username={ username }
       setUsername={ setUsername }
       password={ password }

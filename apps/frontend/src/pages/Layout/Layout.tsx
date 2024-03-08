@@ -10,6 +10,7 @@ export default function Layout(props: SearchTypeProps) {
   const navigate = useNavigate();
 
   const [isLogged, setIsLogged] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const tokenLocalStorage = localStorage.getItem('token');
@@ -18,6 +19,7 @@ export default function Layout(props: SearchTypeProps) {
       return;
     }
     setIsLogged(true);
+    setIsLoading(false);
   }, [navigate]);
 
   return (
@@ -29,12 +31,15 @@ export default function Layout(props: SearchTypeProps) {
         </main>
       </div>
     ) : (
-      <LayoutContainer className="content">
-        <main>
-          <h1>Para continuar faça login</h1>
-          <Link to="login">Login</Link>
-        </main>
-      </LayoutContainer>
+      !isLoading && (
+        <LayoutContainer className="content">
+          <main>
+            <h1>Para continuar faça login</h1>
+            <Link to="login">Login</Link>
+          </main>
+        </LayoutContainer>
+      )
+
     )
   );
 }

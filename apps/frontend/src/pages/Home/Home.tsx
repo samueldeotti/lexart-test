@@ -61,7 +61,7 @@ export default function Home({ search }: { search: string }) {
 
   return (
     <ProductsContainer>
-      {isLoading ? <p>Loading...</p>
+      {isLoading ? <p style={ { color: 'white' } }>Carregando...</p>
         : (
           <>
             {products.filter((product) => product.name.toLowerCase()
