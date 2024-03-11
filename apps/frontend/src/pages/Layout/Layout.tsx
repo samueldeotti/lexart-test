@@ -1,8 +1,8 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Header from '../../Components/Header/Header';
 import { SearchTypeProps } from '../../types/SearchTypeProps';
-import { LayoutContainer } from './LayoutStyle';
+import NecessaryLogin from '../../Components/NecessaryLogin/NecessaryLogin';
 
 export default function Layout(props: SearchTypeProps) {
   const { search, handleChange } = props;
@@ -16,11 +16,14 @@ export default function Layout(props: SearchTypeProps) {
     const tokenLocalStorage = localStorage.getItem('token');
     if (!tokenLocalStorage) {
       setIsLogged(false);
+      setIsLoading(false);
       return;
     }
     setIsLogged(true);
     setIsLoading(false);
   }, [navigate]);
+
+  console.log('isLogged', isLogged, 'isLoading', isLoading);
 
   return (
     isLogged ? (
@@ -32,12 +35,7 @@ export default function Layout(props: SearchTypeProps) {
       </div>
     ) : (
       !isLoading && (
-        <LayoutContainer className="content">
-          <main>
-            <h1>Para continuar faça login</h1>
-            <Link to="login">Login</Link>
-          </main>
-        </LayoutContainer>
+        <NecessaryLogin />
       )
 
     )

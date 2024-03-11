@@ -6,6 +6,7 @@ import Layout from './pages/Layout/Layout';
 import Home from './pages/Home/Home';
 import AddProcuct from './pages/AddProcuct/AddProcuct';
 import EditProduct from './pages/EditProduct/EditProduct';
+import NecessaryLogin from './Components/NecessaryLogin/NecessaryLogin';
 
 function App() {
   const [search, setSearch] = useState('');
@@ -28,7 +29,7 @@ function App() {
         <Route path="/add-product" element={ <AddProcuct /> } />
         <Route path="/edit-product/:id" element={ <EditProduct /> } />
       </Route>
-      <Route path="*" element={ <Navigate to="/login" /> } />
+      <Route path="*" element={ <NecessaryLogin /> } />
     </Routes>
   );
 }
