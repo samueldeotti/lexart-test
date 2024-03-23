@@ -45,7 +45,7 @@ export default function LoginForm({
   return (
     <Container id="content">
       <Form onSubmit={ handleSubmit }>
-        <h1>{isLogin ? 'Login' : 'Increva-se'}</h1>
+        <h1>{isLogin ? 'Login' : 'Inscreva-se'}</h1>
         <div>
           <Input
             type="text"
