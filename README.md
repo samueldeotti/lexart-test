@@ -11,7 +11,7 @@ O projeto está disponível para acesso no seguinte link: [Link do Deploy](https
 ### Frontend
 - HTML
 - CSS
-- Javascript
+- Typescript
 - React
 - React Router
 - Styled-components
